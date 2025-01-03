@@ -1,6 +1,6 @@
 import { Router } from "express";
-import PasienRouter from "../domain/pasien/routes.js";
-import testMiddleware from "../middleware/test.js";
+import PasienRouter from "../domain/pasien/routes";
+import testMiddleware from "../middleware/test";
 
 const router = Router();
 

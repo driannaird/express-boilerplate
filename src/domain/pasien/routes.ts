@@ -5,8 +5,8 @@ import {
   createPasien,
   updatePasien,
   deletePasien,
-} from "./controller.js";
-import asoy2Middle from "../../middleware/asoy2.js";
+} from "./controller";
+import asoy2Middle from "../../middleware/asoy2";
 
 const PasienRouter = Router();
 

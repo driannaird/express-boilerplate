@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "crud-api-expressjs-boilerplate",
   "main": "./src/index.js",
-  "type": "module",
   "scripts": {
-    "dev": "nodemon ./src/index.js"
+    "dev": "npx nodemon",
+    "build": "tsc",
+    "serve": "nodemon ./dist/index.js"
   },
   "author": "driannaird",
   "license": "ISC",

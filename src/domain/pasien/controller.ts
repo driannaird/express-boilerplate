@@ -1,4 +1,6 @@
-export const getAllPasien = (req, res) => {
+import { Request, Response } from "express";
+
+export const getAllPasien = (req: Request, res: Response) => {
   const dummyDataPasien = [
     {
       nomor_rekam_medis: "071004",
@@ -31,24 +33,25 @@ export const getAllPasien = (req, res) => {
       nomor_telepon: "082232929829",
     },
   ];
-  return res.status(200).json({
+
+  res.status(200).json({
     message: "Success get all pasien",
     datas: dummyDataPasien,
   });
 };
 
-export const getPasienById = (req, res) => {
+export const getPasienById = (req: Request, res: Response) => {
   console.log("uhuy");
 };
 
-export const createPasien = (req, res) => {
+export const createPasien = (req: Request, res: Response) => {
   console.log("hehehe");
 };
 
-export const updatePasien = (req, res) => {
+export const updatePasien = (req: Request, res: Response) => {
   console.log("lksjdfdsf");
 };
 
-export const deletePasien = (req, res) => {
+export const deletePasien = (req: Request, res: Response) => {
   console.log("Asoy");
 };
