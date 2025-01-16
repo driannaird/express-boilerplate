@@ -1,9 +1,9 @@
 import { Router } from "express";
-import PasienRouter from "../domain/pasien/routes.js";
-import testMiddleware from "../middleware/test.js";
+
+import DummyRouter from "../domain/dummy/routes.js";
 
 const router = Router();
 
-router.use("/pasien", testMiddleware, PasienRouter);
+router.use("/dummy", DummyRouter);
 
 export default router;
