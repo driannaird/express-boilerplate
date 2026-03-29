@@ -6,7 +6,7 @@ async function checkConnection() {
     await prisma.$connect();
     logger.info("Connection Database Success!");
   } catch (error) {
-    logger.error("Connection Database Error With:", error);
+    logger.error({ error }, "Connection Database Error");
     throw error;
   }
 }
