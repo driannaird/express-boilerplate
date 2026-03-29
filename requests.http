@@ -1,0 +1,135 @@
+@baseUrl = http://localhost:4000/api/v1
+@adminName = Admin Boilerplate
+@adminEmail = admin@example.com
+@adminPassword = password123
+@userName = Regular User
+@userEmail = user@example.com
+@userPassword = password123
+
+###
+# Register first user
+# First registered user becomes Admin
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "{{adminName}}",
+  "email": "{{adminEmail}}",
+  "password": "{{adminPassword}}"
+}
+
+###
+# Login as admin
+# @name loginAdmin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{adminEmail}}",
+  "password": "{{adminPassword}}"
+}
+
+###
+# Get my profile
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{loginAdmin.response.body.data.token}}
+
+###
+# Create regular user as admin
+# @name createUser
+POST {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{loginAdmin.response.body.data.token}}
+
+{
+  "name": "{{userName}}",
+  "email": "{{userEmail}}",
+  "password": "{{userPassword}}",
+  "role": "User"
+}
+
+###
+# List users as admin
+GET {{baseUrl}}/users
+Authorization: Bearer {{loginAdmin.response.body.data.token}}
+
+###
+# Get created user by id as admin
+GET {{baseUrl}}/users/{{createUser.response.body.data.id}}
+Authorization: Bearer {{loginAdmin.response.body.data.token}}
+
+###
+# Update created user as admin
+PATCH {{baseUrl}}/users/{{createUser.response.body.data.id}}
+Content-Type: application/json
+Authorization: Bearer {{loginAdmin.response.body.data.token}}
+
+{
+  "name": "Updated Regular User"
+}
+
+###
+# Login as regular user
+# @name loginUser
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{userEmail}}",
+  "password": "{{userPassword}}"
+}
+
+###
+# Regular user should be blocked from listing users
+GET {{baseUrl}}/users
+Authorization: Bearer {{loginUser.response.body.data.token}}
+
+###
+# Update my own profile as regular user
+PATCH {{baseUrl}}/users/me
+Content-Type: application/json
+Authorization: Bearer {{loginUser.response.body.data.token}}
+
+{
+  "name": "Regular User Updated"
+}
+
+###
+# Change my password as regular user
+PATCH {{baseUrl}}/users/me/password
+Content-Type: application/json
+Authorization: Bearer {{loginUser.response.body.data.token}}
+
+{
+  "currentPassword": "{{userPassword}}",
+  "newPassword": "newpassword123"
+}
+
+###
+# Create dummy
+# @name createDummy
+POST {{baseUrl}}/dummy
+Content-Type: application/json
+
+{
+  "name": "Dummy Example"
+}
+
+###
+# Get all dummy
+GET {{baseUrl}}/dummy
+
+###
+# Get dummy by id
+GET {{baseUrl}}/dummy/{{createDummy.response.body.data.id}}
+
+###
+# Trigger dummy validation error
+POST {{baseUrl}}/dummy
+Content-Type: application/json
+
+{}
+
+###
+# Trigger dummy not found
+GET {{baseUrl}}/dummy/not-found
