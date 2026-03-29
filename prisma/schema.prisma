@@ -13,11 +13,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  Admin
+  User
+}
+
 model dummy {
   id   String @id @default(cuid())
   name String
 
   reffs reff[]
+}
+
+model user {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      UserRole  @default(User)
+  lastLogin DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model reff {
