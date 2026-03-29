@@ -1,7 +1,6 @@
 import express, { Application } from "express";
 import router from "./routes";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
 import checkConnection from "./config/checkConnectionDB";
 import errorHandler from "./middleware/errorHandler";
 
@@ -12,8 +11,8 @@ const createServer = () => {
   const app: Application = express();
 
   // parse body request
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
 
   app.use("/api/v1", router);
 
