@@ -3,10 +3,6 @@ import { ResponseError } from "../../utils/http-error";
 import { hashing, checkPassword } from "../../utils/hashing";
 import UserRepository from "./repository";
 
-export const getUserByEmailService = async (email: string) => {
-  return await UserRepository.findUniqueEmail(email);
-};
-
 export const getAllUserService = async (
   search: string,
   skip: number,
@@ -162,10 +158,4 @@ export const deleteUserService = async (id: string) => {
   }
 
   return await UserRepository.delete(id);
-};
-
-export const updateLastLoginService = async (id: string) => {
-  return await UserRepository.update(id, {
-    lastLogin: new Date(),
-  });
 };

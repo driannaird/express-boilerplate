@@ -7,7 +7,7 @@ export const logger = pino(
     base: {
       pid: false,
     },
-    timestamp: () => `,"time":"${moment().format("DD-MMMM-YYYY HH:MM:ss.Z")}"`,
+    timestamp: () => `,"time":"${moment().format("DD-MMMM-YYYY HH:mm:ss.Z")}"`,
   },
   pretty()
 );

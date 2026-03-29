@@ -1,17 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { logger } from "../../utils/logger";
 import { ResponseError } from "../../utils/http-error";
-import { checkPassword } from "../../utils/hashing";
-import { signJWT } from "../../utils/jwt";
 import {
-  getUserByEmailService,
-  registerUserService,
-  updateLastLoginService,
-} from "../user/service";
-import {
-  createSessionValidation,
-  registerValidation,
-} from "./validation";
+  loginAuthService,
+  registerAuthService,
+} from "./service";
+import { createSessionValidation, registerValidation } from "./validation";
 
 export const register = async (
   req: Request,
@@ -26,7 +20,7 @@ export const register = async (
   }
 
   try {
-    const user = await registerUserService(value);
+    const user = await registerAuthService(value);
 
     logger.info(`Success register user ${user.id}`);
     res.status(201).json({
@@ -54,39 +48,14 @@ export const login = async (
   }
 
   try {
-    const user = await getUserByEmailService(value.email);
-
-    if (!user) {
-      next(new ResponseError(401, "Wrong email or password"));
-      return;
-    }
-
-    const isValid = await checkPassword(value.password, user.password);
-
-    if (!isValid) {
-      next(new ResponseError(401, "Wrong email or password"));
-      return;
-    }
-
-    const token = signJWT({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    });
-
-    try {
-      await updateLastLoginService(user.id);
-    } catch (error) {
-      logger.error(`Failed updating last login for ${user.id}`);
-    }
+    const user = await loginAuthService(value);
 
     logger.info(`Login success for user ${user.id}`);
     res.status(200).json({
       status: true,
       message: "Login success",
       data: {
-        token,
+        token: user.token,
         id: user.id,
         name: user.name,
         email: user.email,

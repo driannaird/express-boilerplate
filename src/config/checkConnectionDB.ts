@@ -7,7 +7,7 @@ async function checkConnection() {
     logger.info("Connection Database Success!");
   } catch (error) {
     logger.error("Connection Database Error With:", error);
-    process.exit(1);
+    throw error;
   }
 }
 

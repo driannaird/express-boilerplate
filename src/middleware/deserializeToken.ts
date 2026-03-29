@@ -1,14 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyJWT } from "../utils/jwt";
 
-declare global {
-  namespace Express {
-    interface Request {
-      userId?: string;
-    }
-  }
-}
-
 const deserializeToken = (
   req: Request,
   res: Response,
@@ -27,7 +19,7 @@ const deserializeToken = (
   const token = verifyJWT(accessToken);
 
   if (token.decoded) {
-    res.locals.user = token.decoded;
+    res.locals.user = token.decoded as Express.Locals["user"];
     req.userId = (token.decoded as { id: string }).id;
   }
 
