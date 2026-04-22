@@ -30,6 +30,43 @@ Content-Type: application/json
 }
 
 ###
+# Setup 2FA for current admin session
+# @name setup2FA
+POST {{baseUrl}}/auth/2fa/setup
+Authorization: Bearer {{loginAdmin.response.body.data.token}}
+
+###
+# Enable 2FA after scanning the QR / secret in Microsoft Authenticator
+POST {{baseUrl}}/auth/2fa/enable
+Content-Type: application/json
+Authorization: Bearer {{loginAdmin.response.body.data.token}}
+
+{
+  "otp": "123456"
+}
+
+###
+# Login again after 2FA is enabled to get a challenge token
+# @name loginAdmin2FA
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{adminEmail}}",
+  "password": "{{adminPassword}}"
+}
+
+###
+# Verify the 2FA challenge token with the code from Microsoft Authenticator
+POST {{baseUrl}}/auth/2fa/verify
+Content-Type: application/json
+
+{
+  "challengeToken": "{{loginAdmin2FA.response.body.data.challengeToken}}",
+  "otp": "123456"
+}
+
+###
 # Get my profile
 GET {{baseUrl}}/users/me
 Authorization: Bearer {{loginAdmin.response.body.data.token}}

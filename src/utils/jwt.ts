@@ -9,6 +9,10 @@ interface SignJWTPayload {
   role: UserRole;
 }
 
+interface LoginChallengePayload extends SignJWTPayload {
+  purpose: "2fa_challenge";
+}
+
 export const signJWT = (
   payload: SignJWTPayload,
   options?: SignOptions
@@ -16,6 +20,22 @@ export const signJWT = (
   return jwt.sign(payload, CONFIG.jwt_private, {
     algorithm: "RS256" as const,
     expiresIn: CONFIG.jwt_expires_in as SignOptions["expiresIn"],
+    ...(options || {}),
+  });
+};
+
+export const signLoginChallengeJWT = (
+  payload: SignJWTPayload,
+  options?: SignOptions
+) => {
+  const challengePayload: LoginChallengePayload = {
+    ...payload,
+    purpose: "2fa_challenge",
+  };
+
+  return jwt.sign(challengePayload, CONFIG.jwt_private, {
+    algorithm: "RS256" as const,
+    expiresIn: "5m",
     ...(options || {}),
   });
 };

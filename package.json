@@ -17,6 +17,7 @@
     "express": "^5.2.1",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
+    "otplib": "^13.4.0",
     "pino": "^9.9.4"
   },
   "devDependencies": {

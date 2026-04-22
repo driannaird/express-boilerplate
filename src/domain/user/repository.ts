@@ -7,6 +7,8 @@ class UserRepository {
     email: true,
     name: true,
     role: true,
+    twoFactorEnabled: true,
+    twoFactorConfirmedAt: true,
     lastLogin: true,
     createdAt: true,
     updatedAt: true,
@@ -76,6 +78,7 @@ class UserRepository {
       select: {
         ...this.generalSelect,
         password: true,
+        twoFactorSecret: true,
       },
     });
   }
@@ -86,6 +89,7 @@ class UserRepository {
       select: {
         ...this.generalSelect,
         password: true,
+        twoFactorSecret: true,
       },
     });
   }
@@ -109,6 +113,9 @@ class UserRepository {
       email: string;
       password: string;
       role: UserRole;
+      twoFactorEnabled: boolean;
+      twoFactorSecret: string | null;
+      twoFactorConfirmedAt: Date | null;
       lastLogin: Date;
     }>
   ) {
